@@ -1,0 +1,68 @@
+name: Build LaTeX
+
+on:
+  push:
+    branches: [main, master]
+    paths:
+      - "src/**/*.tex"
+      - "latexmkrc"
+      - "src/**/latexmkrc"
+      - ".github/workflows/latex.yml"
+  pull_request:
+    paths:
+      - "src/**/*.tex"
+      - "latexmkrc"
+      - "src/**/latexmkrc"
+      - ".github/workflows/latex.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install TeX Live, latexmk, and Noto CJK
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            texlive-xetex \
+            texlive-lang-chinese \
+            texlive-lang-cjk \
+            texlive-fonts-recommended \
+            texlive-latex-extra \
+            fonts-noto-cjk \
+            latexmk
+
+      - name: Build all .tex via latexmk
+        run: latexmk
+
+      - name: Strip LaTeX intermediates from build/
+        if: success()
+        run: |
+          find build -type f \( \
+            -name '*.aux' -o -name '*.log' -o -name '*.out' -o -name '*.toc' -o \
+            -name '*.lof' -o -name '*.lot' -o -name '*.fls' -o -name '*.fdb_latexmk' -o \
+            -name '*.synctex.gz' -o -name '*.xdv' \
+          \) -delete 2>/dev/null || true
+
+      - name: Detect PDF outputs
+        id: out
+        if: success()
+        run: |
+          if [[ -d build ]] && find build -name '*.pdf' -print -quit | grep -q .; then
+            echo "has_pdf=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_pdf=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Upload build/ (PDFs)
+        if: success() && steps.out.outputs.has_pdf == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-pdf
+          path: build/

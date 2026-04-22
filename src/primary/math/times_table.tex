@@ -1,0 +1,49 @@
+\documentclass[a4paper,12pt,UTF8]{ctexart}
+\usepackage{xcolor,colortbl,array}
+\usepackage{geometry}
+% 关键修改：横向 + 边距
+\geometry{margin=1.8cm, landscape} 
+
+% 柔和护眼彩色
+\definecolor{row1}{RGB}{240,248,255}
+\definecolor{row2}{RGB}{255,245,240}
+\definecolor{row3}{RGB}{245,255,245}
+
+% Overleaf 中文字体（XeLaTeX专用）
+\setCJKmainfont{Noto Sans CJK SC} % 稳定不报错
+
+\begin{document}
+\centering
+\vspace*{5mm}
+
+{\Huge\bfseries 九九乘法表（数字版）}\\[1em]
+
+\renewcommand{\arraystretch}{1.8}
+\large
+
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+\hline
+\rowcolor{row1} $1\times1=1$ & & & & & & & & \\
+\hline
+\rowcolor{row2} $1\times2=2$ & $2\times2=4$ & & & & & & & \\
+\hline
+\rowcolor{row3} $1\times3=3$ & $2\times3=6$ & $3\times3=9$ & & & & & & \\
+\hline
+\rowcolor{row1} $1\times4=4$ & $2\times4=8$ & $3\times4=12$ & $4\times4=16$ & & & & & \\
+\hline
+\rowcolor{row2} $1\times5=5$ & $2\times5=10$ & $3\times5=15$ & $4\times5=20$ & $5\times5=25$ & & & & \\
+\hline
+\rowcolor{row3} $1\times6=6$ & $2\times6=12$ & $3\times6=18$ & $4\times6=24$ & $5\times6=30$ & $6\times6=36$ & & & \\
+\hline
+\rowcolor{row1} $1\times7=7$ & $2\times7=14$ & $3\times7=21$ & $4\times7=28$ & $5\times7=35$ & $6\times7=42$ & $7\times7=49$ & & \\
+\hline
+\rowcolor{row2} $1\times8=8$ & $2\times8=16$ & $3\times8=24$ & $4\times8=32$ & $5\times8=40$ & $6\times8=48$ & $7\times8=56$ & $8\times8=64$ & \\
+\hline
+\rowcolor{row3} $1\times9=9$ & $2\times9=18$ & $3\times9=27$ & $4\times9=36$ & $5\times9=45$ & $6\times9=54$ & $7\times9=63$ & $8\times9=72$ & $9\times9=81$ \\
+\hline
+\end{tabular}
+
+\vspace{1cm}
+\small 彩色护眼 · A4横向 · 可直接打印
+
+\end{document}
